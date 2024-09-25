@@ -12,7 +12,13 @@ import {
 } from "./store/commentsPageSlice";
 import { isFulfilled } from "@reduxjs/toolkit";
 
-const buttonStyles = { cursor: "pointer", background: "none", border: "none" };
+import {
+  formStyles,
+  inputStyles,
+  buttonStyles,
+  commentStyles,
+  containerStyles,
+} from "./styles";
 
 function App() {
   const dispatch: AppDispatch = useDispatch();
@@ -71,27 +77,28 @@ function App() {
   }, [comments.length, scrollPosition]);
 
   return (
-    <>
+    <div style={containerStyles}>
       <h1>Comment List</h1>
-      <form>
+      <form style={formStyles}>
         <input
           placeholder="New comment"
           value={commentInputValue}
           onChange={handleChangeCommentInputValue}
+          style={inputStyles}
         />
         <button
           type="submit"
           onClick={handleCreateComment}
-          style={buttonStyles}
+          style={{ ...buttonStyles, fontSize: "24px", color: "#4caf50" }}
         >
           ➤
         </button>
       </form>
       {loading && "loading..."}
-      {error}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       {Boolean(comments.length) &&
         comments.map(({ body, id }) => (
-          <div style={{ display: "flex" }} key={id}>
+          <div style={commentStyles} key={id}>
             <p>{body}</p>
             <button
               style={buttonStyles}
@@ -101,7 +108,7 @@ function App() {
             </button>
           </div>
         ))}
-    </>
+    </div>
   );
 }
 
